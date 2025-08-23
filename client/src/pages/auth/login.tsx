@@ -14,23 +14,23 @@ function LoginPage() {
                     <br /><span className="text-[#DFA408]">CashTrail app</span>
                     !
                 </h1>
-                <p className="hidden md:block lg:text-lg text-white text-sm font-semibold text-shadow-lg drop-shadow-lg">
-                    You can easily track your daily expenses, monitor your
-                    <br />budget, and gain complete control over your finances.
-                    <br />Stay organized, make smarter financial decisions,
-                    <br />and reach your goals faster — all in one simple,  
-                    <br />intuitive platform.
+                <p className="hidden md:block lg:text-2xl text-white text-sm font-semibold text-shadow-lg drop-shadow-lg">
+                    You can easily track your daily expenses, monitor
+                    <br />your budget, and gain complete control over your
+                    <br />finances. Stay organized, make smarter financial
+                    <br />decisions, and reach your goals faster — all in 
+                    <br />one simple, intuitive platform.
                 </p>
             </div>
             <div id="login-form" className="bg-white/40 backdrop-blur-xs rounded-4xl py-[30px] md:px-[60px] px-[20px] flex flex-col gap-6">
                 <div className="flex flex-col gap-4">
                     <div className="flex flex-col gap-2">
                         <label htmlFor="email-input" className="text-white text-shadow-lg drop-shadow-lg font-bold">email:</label>
-                        <input value={email} onChange={(e) => setEmail(e.target.value)} className="rounded-sm bg-white p-1" type="email" name="email-input" id="email-input" />
+                        <input value={email} onChange={(e) => setEmail(e.target.value)} className="rounded-sm bg-white p-1" type="email" name="email-input" id="email-input" placeholder="eg: example@gmail.com" />
                     </div>
                     <div className="flex flex-col gap-2">
                         <label htmlFor="password-input" className="text-white text-shadow-lg drop-shadow-lg font-bold">password:</label>
-                        <input value={password} onChange={(e) => setPassword(e.target.value)} className="rounded-sm bg-white p-1" type="password" name="password-input" id="password-input" />
+                        <input value={password} onChange={(e) => setPassword(e.target.value)} className="rounded-sm bg-white p-1" type="password" name="password-input" id="password-input" placeholder="........................" />
                     </div>
                     <a href="" className="self-end">
                         <p className="text-white underline hover:text-gray-100">Forget password?</p>
