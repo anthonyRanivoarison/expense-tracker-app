@@ -1,12 +1,13 @@
-const express = require('express');
+import express from "express";
+import { userCreation, verifyEmail } from "../controllers/authControllers.js";
 const authRouter = express.Router();
 
 authRouter.post('/signup', userCreation);
 
 authRouter.post('/signup/verification', verifyEmail);
 
-authRouter.post('/login', userAuth);
+// authRouter.post('/login', userAuth);
 
-authRouter.get('/me', getUserProfile); // user profile
+// authRouter.get('/me', getUserProfile); // user profile
 
-module.exports = authRouter;
+export default authRouter;

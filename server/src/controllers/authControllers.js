@@ -1,8 +1,8 @@
-const express = require('express');
+import express from "express";
+import crypto from "crypto";
+import nodemailer from "nodemailer";
+import 'dotenv/config';
 const authRouter = express.Router();
-const crypto = require('crypto');
-const nodemailer = require('nodemailer');
-require('dotenv').config();
 
 const mailSender = (receiverEmail, content) => {
     let transporter = nodemailer.createTransport({
@@ -31,16 +31,17 @@ const mailSender = (receiverEmail, content) => {
     });
 }
 
-const verifyEmail = (req, res) => {
+let pass = "";
+export const verifyEmail = (req, res) => {
     const userInput = req.body.code;
     const allowedInput = /^[A-Z]+$/;
     if (!allowedInput.test(userInput)){
-      return res.status(200).json({ message: 'The verification code contain an invalid character'});
+      return res.status(400).json({ message: 'The verification code contain an invalid character'});
     }
     if (userInput === pass){
       return res.status(201).json({ message: 'Welcome to expense tracker'});      
     }
-    return res.status(200).json({ message: 'Code invalid'});
+    return res.status(400).json({ message: 'Invalid code'});
 }
 
 export const userCreation = (req, res) => {
@@ -48,15 +49,14 @@ export const userCreation = (req, res) => {
     const allowedChar = /^[\w.@]+$/;
     const validEmail = /^[\w][\w.-]*@[\w-]+\.[\w-]+(\.[\w-]+)?$/;
     if (!email){
-        return res.status(200).json({ message: 'email required'});
+        return res.status(400).json({ message: 'email required'});
     }
     if (!allowedChar.test(email)){
-        return res.status(200).json({ message: 'The email contain invalid characters'});
+        return res.status(400).json({ message: 'The email contain invalid characters'});
     }
     if (!validEmail.test(email)){
-        return res.status(200).json({ message: 'The email is invalid'});
+        return res.status(400).json({ message: 'The email is invalid'});
     }
-    let pass = "";
     for (let i = 0; i < 10; i++){
       let randomDigit = crypto.randomInt(65, 90);
       pass += String.fromCharCode(randomDigit);

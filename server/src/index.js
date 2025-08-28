@@ -1,11 +1,11 @@
 import express from "express"
 import cors from "cors"
-import authRouter from "./routes/auth";
-import categoryRouter from "./routes/categories";
-import summaryRouter from "./routes/summary";
-import receiptsRouter from "./routes/receipts";
-import incomesRouter from "./routes/incomes";
-import expensesRouter from "./routes/expenses";
+import authRouter from "./routes/auth.js";
+import categoryRouter from "./routes/categories.js";
+import summaryRouter from "./routes/summary.js";
+import receiptsRouter from "./routes/receipts.js";
+import incomesRouter from "./routes/incomes.js";
+import expensesRouter from "./routes/expenses.js";
 
 const app = express();
 
