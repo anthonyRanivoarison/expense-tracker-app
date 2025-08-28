@@ -42,7 +42,7 @@ export const verifyEmail = (req, res) => {
     if (!allowedInput.test(userInput)){
         return res.status(400).json({ message: 'The verification code contain an invalid character'});
     }
-    if (!allowedChar || !validEmail){
+    if (!allowedChar.test(email) || (allowedChar.test(email) && !validEmail.test(email))){
         return res.status(400).json({ message: 'email is not valid' });
     }
     if (userInput === pass){
