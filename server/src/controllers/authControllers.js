@@ -35,9 +35,15 @@ let pass = "";
 export const verifyEmail = (req, res) => {
     const userInput = req.body.code;
     const email = req.body.email;
+    const allowedChar = /^[\w.@]+$/;
+    const validEmail = /^[\w][\w.-]*@[\w-]+\.[\w-]+(\.[\w-]+)?$/;
     const allowedInput = /^[A-Z]+$/;
+
     if (!allowedInput.test(userInput)){
         return res.status(400).json({ message: 'The verification code contain an invalid character'});
+    }
+    if (!allowedChar || !validEmail){
+        return res.status(400).json({ message: 'email is not valid' });
     }
     if (userInput === pass){
         insertUserEmail(email);
