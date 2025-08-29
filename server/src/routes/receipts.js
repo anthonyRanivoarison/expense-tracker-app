@@ -1,5 +1,5 @@
-import express from "express";
-const receiptsRouter = express.Router();
+import { Router } from "express";
+const receiptsRouter = Router();
 
 // receiptsRouter.get('/:id', getReceiptsById); // download or view receipts
 

@@ -1,5 +1,5 @@
-import express from "express";
-const categoryRouter = express.Router();
+import { Router } from "express";
+const categoryRouter = Router();
 
 // categoryRouter.get('/', getCategory); // list user categories
 // categoryRouter.post('/', postCategory); // create new categories

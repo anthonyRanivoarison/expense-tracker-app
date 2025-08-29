@@ -1,5 +1,5 @@
-import express from "express";
-const expensesRouter = express.Router();
+import { Router } from "express";
+const expensesRouter = Router();
 
 // expensesRouter.get('/', getExpenses); // list user expenses
 // expensesRouter.get('/:id', getExpensesById); // get a single expense

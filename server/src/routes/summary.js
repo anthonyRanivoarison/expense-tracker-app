@@ -1,5 +1,5 @@
-import express from "express";
-const summaryRouter = express.Router();
+import { Router } from "express";
+const summaryRouter = Router();
 
 // summaryRouter.get('/monthly', getMonthlySummary);// get current month summary
 // summaryRouter.get('/', getSummary); // get summary for custom range
