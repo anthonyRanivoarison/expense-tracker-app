@@ -1,15 +1,28 @@
 import express from "express"
 import cors from "cors"
+import authRouter from "./routes/auth.js";
+import categoryRouter from "./routes/categories.js";
+import summaryRouter from "./routes/summary.js";
+import receiptsRouter from "./routes/receipts.js";
+import incomesRouter from "./routes/incomes.js";
+import expensesRouter from "./routes/expenses.js";
 
-const app = express()
+const app = express();
 
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
-app.use(cors())
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
+
+app.use('/api/auth', authRouter);
+app.use('/categories', categoryRouter);
+app.use('/expenses', expensesRouter);
+app.use('/incomes', incomesRouter);
+app.use('/summary', summaryRouter);
+app.use('/receipt', receiptsRouter);
 
 app.get("/", (req, res) => {
   res.send("Hello from expense tracker api")
-})
+});
 
 const PORT = process.env.PORT || 8000;
 
