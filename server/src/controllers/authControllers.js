@@ -1,4 +1,3 @@
-import express from "express";
 import crypto from "crypto";
 import nodemailer from "nodemailer";
 import 'dotenv/config';
@@ -31,23 +30,45 @@ const mailSender = (receiverEmail, content) => {
     });
 }
 
+const sanitizeAndValidEmail = (email) => {
+  const allowedChar = /^[\w.@]+$/;
+  const validEmail = /^[\w][\w.-]*@[\w-]+\.[\w-]+(\.[\w-]+)?$/;
+
+  if (!email){
+    return {message: 'email required'};
+  }
+  if (!allowedChar.test(email)){
+    return { message: 'The email contain invalid characters'};
+  }
+  if (!validEmail.test(email)){
+    return { message: 'The email is invalid'};
+  }
+}
+
 let pass = "";
-export const verifyEmail = (req, res) => {
+export const verifyEmail = async (req, res) => {
     const userInput = req.body.code;
     const email = req.body.email;
-    const allowedChar = /^[\w.@]+$/;
-    const validEmail = /^[\w][\w.-]*@[\w-]+\.[\w-]+(\.[\w-]+)?$/;
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+
     const allowedInput = /^[A-Z]+$/;
+    const allowedCharOnName = /^[A-Za-z]+$/;
+
+    const invalidEmail  = sanitizeAndValidEmail(email);
+    if (invalidEmail){
+      res.status(400).json(invalidEmail);
+    }
 
     if (!allowedInput.test(userInput)){
-        return res.status(400).json({ message: 'The verification code contain an invalid character'});
+      return res.status(400).json({ message: 'The verification code contain an invalid character'});
     }
-    if (!allowedChar.test(email) || (allowedChar.test(email) && !validEmail.test(email))){
-        return res.status(400).json({ message: 'email is not valid' });
+    if (!lastName || !allowedCharOnName.test(lastName) || !allowedCharOnName.test(firstName)){
+      return res.status(400).json({ message: 'Request header has missing parameter or not valid' });
     }
     if (userInput === pass){
-        insertUserEmail(email);
-        return res.status(201).json({ message: 'Welcome to expense tracker'});      
+      await insertUserEmail(email, lastName, firstName);
+      return res.status(201).json({ message: 'Welcome to expense tracker'});      
     }
     return res.status(400).json({ message: 'Invalid code'});
 }
@@ -56,24 +77,18 @@ export const userCreation = (req, res) => {
     const email = req.body.email;
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
-    const allowedChar = /^[\w.@]+$/;
-    const allowedCharOnName = /^[A-Za-z]+$/
-    const validEmail = /^[\w][\w.-]*@[\w-]+\.[\w-]+(\.[\w-]+)?$/;
+    const allowedCharOnName = /^[A-Za-z]+$/;
 
-    if (!email){
-        return res.status(400).json({ message: 'email required' });
+    const invalidEmail  = sanitizeAndValidEmail(email);
+    if (invalidEmail){
+      return res.status(400).json(invalidEmail);
     }
+
     if (!lastName){
         return res.status(400).json({ message: 'Last name required' });
     }
-    if (!allowedChar.test(email)){
-        return res.status(400).json({ message: 'The email contain invalid characters'});
-    }
     if (!allowedCharOnName.test(firstName) || !allowedCharOnName.test(lastName)){
         return res.status(400).json({message: 'Last name or first name contains invalid character(s)'});
-    }
-    if (!validEmail.test(email)){
-        return res.status(400).json({ message: 'The email is invalid'});
     }
 
     for (let i = 0; i < 10; i++){
