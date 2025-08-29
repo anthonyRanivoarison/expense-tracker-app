@@ -1,4 +1,3 @@
-import express from "express";
 import crypto from "crypto";
 import nodemailer from "nodemailer";
 import 'dotenv/config';
@@ -35,19 +34,26 @@ let pass = "";
 export const verifyEmail = (req, res) => {
     const userInput = req.body.code;
     const email = req.body.email;
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+
     const allowedChar = /^[\w.@]+$/;
     const validEmail = /^[\w][\w.-]*@[\w-]+\.[\w-]+(\.[\w-]+)?$/;
     const allowedInput = /^[A-Z]+$/;
+    const allowedCharOnName = /^[A-Za-z]+$/
 
     if (!allowedInput.test(userInput)){
-        return res.status(400).json({ message: 'The verification code contain an invalid character'});
+      return res.status(400).json({ message: 'The verification code contain an invalid character'});
     }
     if (!allowedChar.test(email) || (allowedChar.test(email) && !validEmail.test(email))){
-        return res.status(400).json({ message: 'email is not valid' });
+      return res.status(400).json({ message: 'email is not valid' });
+    }
+    if (!lastName || !allowedCharOnName.test(lastName) || !allowedCharOnName.test(firstName)){
+      return res.status(400).json({ message: 'Request header has missing parameter or not valid' });
     }
     if (userInput === pass){
-        insertUserEmail(email);
-        return res.status(201).json({ message: 'Welcome to expense tracker'});      
+      insertUserEmail(email, lastName, firstName);
+      return res.status(201).json({ message: 'Welcome to expense tracker'});      
     }
     return res.status(400).json({ message: 'Invalid code'});
 }
