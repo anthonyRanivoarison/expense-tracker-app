@@ -7,7 +7,6 @@ export const insertUserEmail = async (email, lastName, firstName = null) => {
             values: [email, firstName, lastName]
         }
         connection.query(sqlQuery);
-        console.log("Operation succeed");
     }
     catch(err){
         console.log(err);
