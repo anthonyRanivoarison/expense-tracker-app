@@ -1,5 +1,5 @@
-import express from "express";
-const incomesRouter = express.Router();
+import { Router } from "express";
+const incomesRouter = Router();
 
 // incomesRouter.get('/', getIncomes); // list incomes
 // incomesRouter.post('/', postIncomes); // create a new income
