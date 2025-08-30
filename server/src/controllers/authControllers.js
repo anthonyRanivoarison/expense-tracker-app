@@ -76,8 +76,11 @@ export const verifyEmail = async (req, res) => {
     memory.delete('userEmail');
     memory.delete('verificationCode');
 
-    await insertUserEmail(email, lastName, firstName);
-    return res.status(201).json({ message: 'Welcome to expense tracker'});     
+    const userDataInserted = await insertUserEmail(email, lastName, firstName);
+    if (userDataInserted){
+      return res.status(201).json({ message: 'Welcome to expense tracker'});
+    }
+    return res.status(500).json({ message: 'An error occured' });
   }
   return res.status(400).json({ message: 'Invalid code'});
 }
@@ -101,7 +104,7 @@ export const userCreation = async (req, res) => {
   }
 
   const existingEmailChecked = await findUserEmail(email);
-  if (existingEmailChecked){
+  if (existingEmailChecked.rows.length != 0){
     return res.status(400).json({ message: 'Email already used' });
   }
   const pass = passGen();
