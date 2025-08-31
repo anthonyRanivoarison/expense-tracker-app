@@ -27,3 +27,17 @@ export const findUserEmail = async (email) => {
         throw err;
     }
 }
+
+export const findUserIdAndLastName = async (email) => {
+    try{
+        const sqlQuery = {
+            text: 'SELECT id, last_name FROM users WHERE email = $1',
+            values: [email]
+        }
+        return connection.query(sqlQuery); 
+    }
+    catch(err){
+        console.log(err);
+        throw err;
+    }
+} 

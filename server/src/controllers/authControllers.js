@@ -1,7 +1,8 @@
 import crypto from "crypto";
 import nodemailer from "nodemailer";
 import 'dotenv/config';
-import { findUserEmail, insertUserEmail } from "../models/authDB.js";
+import { findUserEmail, findUserIdAndLastName, insertUserEmail } from "../models/authDB.js";
+import jwt from "jsonwebtoken";
 
 const mailSender = (receiverEmail, content) => {
   let transporter = nodemailer.createTransport({
@@ -116,3 +117,59 @@ export const userCreation = async (req, res) => {
   return res.status(200).json({ message: `An email will be send to ${email} if it's valid` });
 }
 
+export const verifyAuthToken = (req, res, next) => {
+    const authHeader = req.headers['authorization'];
+    if (!validToken){
+        return res.status(401).json({ message: 'Token is missing' });
+    }
+    const clientToken = authHeader.split(' ')[1];
+    jwt.verify(clientToken, process.env.JWT_SECRET, (err, decoded) => {
+        if (err) {
+            return res.status(403).json({ message: 'Invalid token' });
+        }
+        return res.status(200).json({ message: `Verified`});
+        req.user = decoded;
+        next();
+    })
+}
+
+
+export const verifyEmailOnLogin = async (req, res) => {
+  const code = req.body.code;
+  const email = memory.get('userEmail');
+  const pass = memory.get('verificationCode');
+
+  const allowedInput = /^[A-Z]+$/;
+  if (!allowedInput.test(code)){
+    return res.status(400).json({ message: 'The verification code contain an invalid character'});
+  }
+
+  if (code === pass){
+    const userData = await findUserIdAndLastName(email);
+    const token = jwt.sign({ id: userData.rows.id, lastName: userData.rows.last_name, code: `${pass}` }, process.env.JWT_SECRET);
+    memory.delete('userEmail');
+    return res.status(200).json({ token });
+  }
+  return res.status(400).json({ message: 'Invalid code' });
+}
+
+export const userAuth = async (req, res) => {
+  const email = req.body.email;
+
+  const invalidEmail  = sanitizeAndValidEmail(email);
+  if (invalidEmail){
+    return res.status(400).json(invalidEmail);
+  }
+
+  const existingEmailChecked = await findUserEmail(email);
+  if (existingEmailChecked.rows.length == 0){
+    return res.status(404).json({ message: 'Email not found, please register before sign in' });
+  }
+  memory.set('userEmail', email);
+
+  const pass = passGen();
+  memory.set('verificationCode', pass);
+  mailSender(email, pass);
+
+  return res.status(200).json({ message: `An email with the verification code was send to ${email}` });
+}
