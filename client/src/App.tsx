@@ -1,14 +1,25 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import LoginPage from './pages/auth/login.tsx'
+import {Routes, Route} from "react-router-dom";
+import {SidebarProvider} from "@/components/sidebar-context";
+import DefaultLayout from "@/pages/layouts/AppLayout.tsx";
+import Home from "@/pages/Home"
+import Dashboard from "@/pages/Dashboard";
+import Expenses from "@/pages/Expenses";
+import Incomes from "@/pages/Incomes"
+import Receipts from "@/pages/Receipts";
+import UserProfile from "@/pages/UserProfile"
 
-function App() {
+
+export default function App() {
   return (
-    <BrowserRouter>
+    <SidebarProvider>
       <Routes>
-        <Route path="/" element={<LoginPage />}/>
+        <Route path="/" element={<DefaultLayout> <Home/> </DefaultLayout>}/>
+        <Route path="/dashboard" element={<DefaultLayout> <Dashboard/> </DefaultLayout>}/>
+        <Route path="/expenses" element={<DefaultLayout> <Expenses/> </DefaultLayout>}/>
+        <Route path="/incomes" element={<DefaultLayout> <Incomes/> </DefaultLayout>}/>
+        <Route path="/receipts" element={<DefaultLayout> <Receipts/> </DefaultLayout>}/>
+        <Route path="/profile" element={<DefaultLayout> <UserProfile/> </DefaultLayout>}/>
       </Routes>
-    </BrowserRouter>
-  )
+    </SidebarProvider>
+  );
 }
-
-export default App
