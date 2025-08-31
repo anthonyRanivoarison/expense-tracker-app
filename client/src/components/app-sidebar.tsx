@@ -18,22 +18,22 @@ import {
   UserCog,
   LogOut,
 } from "lucide-react";
-
 import {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuItem,
-} from "../../@/components/ui/dropdown-menu";
+  DropdownMenuSeparator
+} from "@radix-ui/react-dropdown-menu";
+
 
 const items = [
-  {title: "Dashboard", url: "#", icon: LayoutDashboard},
-  {title: "All expenses", url: "#", icon: Receipt},
-  {title: "Categories", url: "#", icon: Tags},
-  {title: "Profile", url: "#", icon: UserCog},
-  {title: "Settings", url: "#", icon: Settings2},
+  {title: "Dashboard", url: "/dashboard", icon: LayoutDashboard},
+  {title: "All expenses", url: "/expenses", icon: Receipt},
+  {title: "Categories", url: "/categories", icon: Tags},
+  {title: "Profile", url: "/profile", icon: UserCog},
+  {title: "Settings", url: "/settings", icon: Settings2},
 ];
 
 export function AppSidebar() {
