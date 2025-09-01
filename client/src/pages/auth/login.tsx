@@ -1,58 +1,59 @@
+import { Lock, Mail, ArrowRight } from "lucide-react"
 import { useState } from "react";
 
 
 function LoginPage() {
 
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
 
     return (
-        <div className='login-page bg-[url(assets/images/bg-image-login-page.jpg)] h-screen w-full bg-cover min-h-[100vh] min-w-[100vw] flex justify-center md:justify-evenly items-center'>
-            <div className="flex flex-col gap-6 filter">
-                <h1 className='hidden md:block lg:text-6xl text-white text-4xl text-shadow-lg drop-shadow-lg font-bold text-center'>
-                    Welcome to
-                    <br /><span className="text-[#DFA408]">CashTrail app</span>
-                    !
-                </h1>
-                <p className="hidden md:block lg:text-2xl text-white text-sm font-semibold text-shadow-lg drop-shadow-lg">
-                    You can easily track your daily expenses, monitor
-                    <br />your budget, and gain complete control over your
-                    <br />finances. Stay organized, make smarter financial
-                    <br />decisions, and reach your goals faster — all in 
-                    <br />one simple, intuitive platform.
-                </p>
-            </div>
-            <div id="login-form" className="bg-white/40 backdrop-blur-xs rounded-4xl py-[30px] md:px-[60px] px-[20px] flex flex-col gap-6">
-                <div className="flex flex-col gap-4">
-                    <div className="flex flex-col gap-2">
-                        <label htmlFor="email-input" className="text-white text-shadow-lg drop-shadow-lg font-bold">email:</label>
-                        <input value={email} onChange={(e) => setEmail(e.target.value)} className="rounded-sm bg-white p-1" type="email" name="email-input" id="email-input" placeholder="eg: example@gmail.com" />
-                    </div>
-                    <div className="flex flex-col gap-2">
-                        <label htmlFor="password-input" className="text-white text-shadow-lg drop-shadow-lg font-bold">password:</label>
-                        <input value={password} onChange={(e) => setPassword(e.target.value)} className="rounded-sm bg-white p-1" type="password" name="password-input" id="password-input" placeholder="........................" />
-                    </div>
-                    <a href="" className="self-end">
-                        <p className="text-white underline hover:text-gray-100">Forget password?</p>
-                    </a>
+        <div className="login-page bg-gray-50 h-screen w-full flex justify-center items-center">
+            <form className='login-form bg-white h-auto w-auto py-6 px-8 shadow-xl text-center flex flex-col justify-center items-center gap-6 rounded-3xl'>
+                <div className="icon bg-gray-100 p-4 rounded-full shadow-md">
+                    <Lock />
                 </div>
-                <button className="text-white font-bold py-2 bg-[#001948] rounded-sm hover:bg-[#001960] hover:cursor-pointer active:scale-95">
-                    Sign in
-                </button>
-                <div className="flex flex-row items-center gap-4">
-                    <div className="flex-1 border-t border-white"></div>
-                    <p className="text-white">or</p>
-                    <div className="flex-1 border-t border-white"></div>
-                </div>
-                <div>
-                    <p className="flex flex-row gap-2 text-white">
-                        Are you new?
-                        <a href="">
-                            <p className="text-blue-600 underline hover:text-blue-500">Create a new account</p>
-                        </a>
+                <div className="flex flex-col gap-2">
+                    <h1 className="text-2xl font-bold">
+                        Sign In
+                    </h1>
+                    <p className="border-b border-dashed border-gray-300 pb-8 sm:px-4 text-gray-600">
+                        Enter your email to send a code.
                     </p>
                 </div>
-            </div>
+                <div className="flex flex-col gap-1">
+                    <label htmlFor="email" className="text-left font-semibold">
+                        Email adresse :
+                    </label>
+                    <div className="relative w-64 sm:w-78">
+                        <Mail
+                            size={16}
+                            className="absolute left-2 top-[31%] text-gray-400"
+                        />
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="example@gmail.com"
+                            required
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="border border-gray-300 rounded-xl pl-8 p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+                    </div>
+                </div>
+                <button type="submit" className="flex flex-row justify-center gap-1 bg-black text-white px-4 py-2 rounded-xl hover:bg-gray-800 hover:cursor-pointer transition w-64 sm:w-78">
+                    Send code
+                    <ArrowRight />
+                </button>
+                <div className="flex flex-col gap-1 w-[100%]">
+                    <p className="text-start text-sm text-gray-600">
+                        Don't have an account?
+                    </p>
+                    <a href="" className="text-end underline text-blue-600 hover:text-blue-800">
+                        Sign up?
+                    </a>
+                </div>
+            </form>
         </div>
     )
 }
